@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureChain - AI-Powered Supply Chain Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .alert-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { background-color: #fee2e2; }
+            50% { background-color: #fecaca; }
+            100% { background-color: #fee2e2; }
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <div class="bg-slate-800 text-white w-64 py-6 flex flex-col">
+            <div class="px-6 mb-8">
+                <h1 class="text-xl font-bold">SecureChain</h1>
+            </div>
+            <nav class="flex-1">
+                <a href="#" class="flex items-center px-6 py-3 bg-slate-700" onclick="showSection('dashboard')">
+                    <i class="bi bi-grid-1x2-fill mr-3"></i> Dashboard
+                </a>
+                <a href="#" class="flex items-center px-6 py-3 hover:bg-slate-700" onclick="showSection('scans')">
+                    <i class="bi bi-shield-check mr-3"></i> Security Scans
+                </a>
+                <a href="#" class="flex items-center px-6 py-3 hover:bg-slate-700" onclick="showSection('monitoring')">
+                    <i class="bi bi-activity mr-3"></i> Monitoring
+                </a>
+                <a href="#" class="flex items-center px-6 py-3 hover:bg-slate-700" onclick="showSection('reports')">
+                    <i class="bi bi-file-earmark-text mr-3"></i> Reports
+                </a>
+                <a href="#" class="flex items-center px-6 py-3 hover:bg-slate-700" onclick="showSection('settings')">
+                    <i class="bi bi-gear mr-3"></i> Settings
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-x-hidden">
+            <!-- Header -->
+            <header class="bg-white shadow-sm py-4 px-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-semibold" id="section-title">Dashboard</h2>
+                    <div class="flex items-center space-x-4">
+                        <button class="bg-slate-800 text-white px-4 py-2 rounded-lg">
+                            <i class="bi bi-plus"></i> New Scan
+                        </button>
+                        <div class="relative">
+                            <i class="bi bi-bell text-xl cursor-pointer"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="p-6">
+                <!-- Dashboard -->
+                <div id="dashboard" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-semibold">Security Score</h3>
+                                <span class="text-green-500 text-2xl font-bold">85%</span>
+                            </div>
+                            <div class="mt-4 bg-gray-200 h-2 rounded-full">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="font-semibold">Active Threats</h3>
+                            <div class="mt-2">
+                                <span class="text-3xl font-bold text-red-500">3</span>
+                                <span class="text-gray-500 ml-2">Critical Issues</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="font-semibold">Components Monitored</h3>
+                            <div class="mt-2">
+                                <span class="text-3xl font-bold text-blue-500">247</span>
+                                <span class="text-gray-500 ml-2">Dependencies</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-semibold mb-4">Recent Alerts</h3>
+                        <div class="space-y-4">
+                            <div class="alert-pulse p-4 rounded-lg">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-medium">Critical Vulnerability Detected</h4>
+                                        <p class="text-sm text-gray-600">Found in npm package: lodash@4.17.20</p>
+                                    </div>
+                                    <span class="text-red-600">5m ago</span>
+                                </div>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-medium">Suspicious Activity</h4>
+                                        <p class="text-sm text-gray-600">Unusual package behavior detected</p>
+                                    </div>
+                                    <span class="text-yellow-600">1h ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scans -->
+                <div id="scans" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="font-semibold">Security Scans History</h3>
+                            <button class="bg-slate-800 text-white px-4 py-2 rounded-lg" onclick="startNewScan()">
+                                Start New Scan
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead>
+                                    <tr class="bg-gray-50">
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Issues Found</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200" id="scan-results">
+                                    <!-- Scan results will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monitoring -->
+                <div id="monitoring" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-semibold mb-4">Real-Time Monitoring</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="border rounded-lg p-4">
+                                <h4 class="font-medium mb-2">Component Health</h4>
+                                <div id="component-health" class="space-y-2">
+                                    <!-- Component health metrics will be populated here -->
+                                </div>
+                            </div>
+                            <div class="border rounded-lg p-4">
+                                <h4 class="font-medium mb-2">Anomaly Detection</h4>
+                                <div id="anomaly-detection" class="space-y-2">
+                                    <!-- Anomaly detection results will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports -->
+                <div id="reports" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-semibold mb-4">Security Reports</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-medium mb-2">Report Types</h4>
+                                <select class="w-full border rounded-lg p-2" id="report-type">
+                                    <option value="vulnerability">Vulnerability Report</option>
+                                    <option value="compliance">Compliance Report</option>
+                                    <option value="threat">Threat Intelligence Report</option>
+                                </select>
+                                <button class="mt-4 bg-slate-800 text-white px-4 py-2 rounded-lg" onclick="generateReport()">
+                                    Generate Report
+                                </button>
+                            </div>
+                            <div id="report-preview" class="border rounded-lg p-4">
+                                <!-- Report preview will be shown here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div id="settings" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-semibold mb-4">Security Settings</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block font-medium mb-2">Scan Frequency</label>
+                                <select class="w-full border rounded-lg p-2" id="scan-frequency">
+                                    <option value="hourly">Every Hour</option>
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block font-medium mb-2">Notification Settings</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox" checked>
+                                        <span class="ml-2">Critical Vulnerabilities</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox" checked>
+                                        <span class="ml-2">Suspicious Activities</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox">
+                                        <span class="ml-2">Weekly Reports</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <button class="bg-slate-800 text-white px-4 py-2 rounded-lg" onclick="saveSettings()">
+                                Save Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentSection = 'dashboard';
+        let scanInProgress = false;
+        let mockData = {
+            components: [
+                { name: 'Frontend', health: 98 },
+                { name: 'Backend API', health: 95 },
+                { name: 'Database', health: 92 }
+            ],
+            anomalies: [
+                { type: 'Unusual Access Pattern', severity: 'Medium', timestamp: '2023-11-15 14:30' },
+                { type: 'Configuration Change', severity: 'Low', timestamp: '2023-11-15 13:45' }
+            ]
+        };
+
+        // Navigation
+        function showSection(section) {
+            document.getElementById(currentSection).classList.add('hidden');
+            document.getElementById(section).classList.remove('hidden');
+            document.getElementById('section-title').textContent = section.charAt(0).toUpperCase() + section.slice(1);
+            currentSection = section;
+
+            if (section === 'monitoring') {
+                updateMonitoringData();
+            }
+        }
+
+        // Scanning functionality
+        function startNewScan() {
+            if (scanInProgress) return;
+            scanInProgress = true;
+            
+            const scanResults = document.getElementById('scan-results');
+            const newScan = document.createElement('tr');
+            newScan.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">${new Date().toLocaleString()}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                        Scanning...
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    --
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <i class="bi bi-hourglass-split animate-spin"></i>
+                </td>
+            `;
+            scanResults.insertBefore(newScan, scanResults.firstChild);
+
+            // Simulate scan completion after 3 seconds
+            setTimeout(() => {
+                newScan.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${new Date().toLocaleString()}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Completed
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        3 Critical, 5 Medium
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
+                        <button onclick="viewScanDetails()">View Details</button>
+                    </td>
+                `;
+                scanInProgress = false;
+            }, 3000);
+        }
+
+        // Monitoring functionality
+        function updateMonitoringData() {
+            const componentHealth = document.getElementById('component-health');
+            const anomalyDetection = document.getElementById('anomaly-detection');
+
+            componentHealth.innerHTML = mockData.components.map(component => `
+                <div class="flex justify-between items-center">
+                    <span>${component.name}</span>
+                    <div class="flex items-center">
+                        <div class="w-32 bg-gray-200 rounded-full h-2 mr-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: ${component.health}%"></div>
+                        </div>
+                        <span class="text-sm text-gray-600">${component.health}%</span>
+                    </div>
+                </div>
+            `).join('');
+
+            anomalyDetection.innerHTML = mockData.anomalies.map(anomaly => `
+                <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
+                    <div>
+                        <div class="font-medium">${anomaly.type}</div>
+                        <div class="text-sm text-gray-600">${anomaly.timestamp}</div>
+                    </div>
+                    <span class="px-2 py-1 text-xs rounded-full ${
+                        anomaly.severity === 'High' ? 'bg-red-100 text-red-800' :
+                        anomaly.severity === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-green-100 text-green-800'
+                    }">${anomaly.severity}</span>
+                </div>
+            `).join('');
+        }
+
+        // Report generation
+        function generateReport() {
+            const reportType = document.getElementById('report-type').value;
+            const reportPreview = document.getElementById('report-preview');
+            
+            reportPreview.innerHTML = `
+                <div class="text-center p-4">
+                    <i class="bi bi-file-earmark-text text-4xl text-gray-400"></i>
+                    <p class="mt-2">Generating ${reportType} report...</p>
+                    <div class="mt-4 h-2 bg-gray-200 rounded-full">
+                        <div class="bg-blue-500 h-2 rounded-full animate-pulse"></div>
+                    </div>
+                </div>
+            `;
+
+            setTimeout(() => {
+                reportPreview.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium">${reportType.charAt(0).toUpperCase() + reportType.slice(1)} Report</h4>
+                            <button class="text-blue-600" onclick="downloadReport()">
+                                <i class="bi bi-download"></i> Download
+                            </button>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="p-2 bg-gray-50 rounded">
+                                <span class="font-medium">Total Scans:</span> 24
+                            </div>
+                            <div class="p-2 bg-gray-50 rounded">
+                                <span class="font-medium">Critical Issues:</span> 3
+                            </div>
+                            <div class="p-2 bg-gray-50 rounded">
+                                <span class="font-medium">Resolution Rate:</span> 92%
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }, 2000);
+        }
+
+        // Settings management
+        function saveSettings() {
+            const frequency = document.getElementById('scan-frequency').value;
+            
+            // Show save confirmation
+            const button = event.target;
+            const originalText = button.textContent;
+            button.innerHTML = '<i class="bi bi-check"></i> Saved!';
+            button.classList.add('bg-green-600');
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.classList.remove('bg-green-600');
+            }, 2000);
+        }
+
+        // Initialize monitoring data on load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMonitoringData();
+        });
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
